@@ -25,7 +25,7 @@ module.exports = {
 
   fn: async function (inputs, exits) {
     inputs.dateOfCreation = Number.parseInt(new Date().getTime()) + (10000)
-    inputs.notification = 1                               // default status word's notification
+    inputs.notification = 1                               // set start status word's notification
     const {      word          : newWord,
                  translate     : translate,
                  dateOfCreation: current,
@@ -42,7 +42,6 @@ module.exports = {
       sails.log('Found "%s"', newRecord);
     }
       return exits.success(newRecord);
-
   }
 };
 

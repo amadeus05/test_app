@@ -16,7 +16,7 @@ module.exports = {
       description: 'All done.',
     },
     failed: {
-      description: 'ERROR'
+      description: 'Main process ERROR'
     }
 
   },
@@ -27,11 +27,11 @@ module.exports = {
     const maxStatus = 5
     const nodeMailer = require("nodemailer");
 
-    var words = await Word.find({});
+    let words = await Word.find({});
     if (words.length !== 0) {
 
       for (let word of words) {
-        let obj = word    //words[word]
+        let obj = word
         const {
           word: objWord,
           translate: wordTranslate,
@@ -55,7 +55,7 @@ module.exports = {
             }
           } else {
             let destroyRecord = await Word.destroyOne({dateOfCreation: objDate});
-            sails.log(`Record with id: ${obj.id} was destroyed => notif status: ` + obj.notification)
+            sails.log(`Record with id: ${obj.id} was destroyed because of notification reached status 5: ` + obj.notification)
           }
         }
       }
@@ -88,38 +88,40 @@ module.exports = {
     function checkStatusSetDate(currentStatus, currentDate) {
 
       const minutes = 1000 * 60;
-      const hours = minutes * 60;
-      const days = hours * 24;
-      const years = days * 365;
-      const nine = 9 * hours
-      const day = hours * 24;
-      const seven = 7 * days
-      const twelve = 12 * days
+      const hours   = minutes * 60;
+      const days    = hours * 24;
+      const years   = days * 365;
+
+      // =======times for real tasks ==========
+      const nine      = 9 * hours
+      const day       = hours * 24;
+      const seven     = 7 * days
+      const twelve    = 12 * days
       const firstTime = 5 * minutes
 
       let notificationTime = currentStatus
       switch (notificationTime) {
         case 1:
-          return intpars(currentDate, 10000)
+          return intpars(currentDate, 10000) //test time to dont wait
           break
         case 2:
-          return intpars(currentDate, 10000)
+          return intpars(currentDate, 10000) //test time
           break
         case 3:
-          return intpars(currentDate, 10000)
+          return intpars(currentDate, 10000) //test time
           break
         case 4:
-          return intpars(currentDate, 10000)
+          return intpars(currentDate, 10000) //test time
           break
         case 5:
-          return intpars(currentDate, 10000)
+          return intpars(currentDate, 10000) //test time
           break
       }
 
       function intpars(stringDate, value){
         return Number.parseInt(stringDate, 10) + value
       }
-      return 'after exec we get current date + (date of current status)'
+      return 'new date for notification'
     }
 
     return exits.success('Success')
