@@ -2,8 +2,8 @@
 
 This app works on technique wich is called Ebbinghaus’ Forgetting Curve.
 Users can add some information (for example: words) after adding some information the application starts count 
-by the method of Ebbinghaus when next time to show to user notification with with the request to 
-repeat that information was added.
+by the method of Ebbinghaus when next time to show to user notification with the request to 
+repeat that information what was added.
 Each word has 5 notification statuses. If a record reaching status 5 it is deleted from database
 Each of the statuses has his own time interval acordingly to Ebbinghaus’ Forgetting Curve. The interval is counted everytime the notification was shown.
 
