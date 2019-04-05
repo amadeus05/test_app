@@ -17,7 +17,8 @@
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   "extends": [
-    "../.eslintrc"
+    "../.eslintrc",
+    "plugin:react/recommended"
   ],
 
   "env": {
@@ -26,8 +27,12 @@
   },
 
   "parserOptions": {
-    "ecmaVersion": 8
+    "ecmaVersion": 8,
     //^ If you are not using a transpiler like Babel, change this to `5`.
+    "sourceType": "module",
+    "ecmaFeatures": {
+      "jsx": true
+    }
   },
 
   "globals": {
