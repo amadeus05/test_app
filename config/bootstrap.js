@@ -11,6 +11,12 @@
 
 module.exports.bootstrap = async function() {
 
+  setInterval(async function ()
+  {
+    await sails.helpers.mainProcess();
+  },
+ 10000) //test timeout
+
   // By convention, this is a good place to set up fake data during development.
   //
   // For example:
@@ -28,3 +34,4 @@ module.exports.bootstrap = async function() {
   // ```
 
 };
+
