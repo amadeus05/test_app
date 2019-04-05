@@ -22,9 +22,9 @@ module.exports.routes = {
 
   '/':                           { view: 'pages/homepage'  },
   'POST /api/v1/word':           { action: 'word'          },
-  'GET /api/v1/word' :           { action: 'word'          },
-  'POST /api/v1/user/add-user':  { action: 'user/add-user' },
-  'GET /api/v1/user/add-user' :  { action: 'user/add-user' },
+  'GET /api/v1/wordsList' :      { action: 'wordsList'     },
+  'POST /api/v1/user':           { action: 'user'          },
+
 
 
 

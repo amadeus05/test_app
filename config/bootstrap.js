@@ -13,7 +13,7 @@ module.exports.bootstrap = async function() {
 
   setInterval(async function ()
   {
-    await sails.helpers.mainProcess();
+    await sails.helpers.runSender();
   },
  10000) //test timeout
 

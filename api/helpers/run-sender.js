@@ -1,13 +1,15 @@
 module.exports = {
 
 
-  friendlyName: 'Main process',
+  friendlyName: 'Run sender',
 
 
-  description: 'Main cycle for send notifications over to users',
+  description: '',
 
 
-  inputs: {},
+  inputs: {
+
+  },
 
 
   exits: {
@@ -15,30 +17,25 @@ module.exports = {
     success: {
       description: 'All done.',
     },
-    failed: {
-      description: 'Main process ERROR'
-    }
 
   },
 
 
   fn: async function (inputs, exits) {
-
     const maxStatus = 5
     const nodeMailer = require("nodemailer");
-
+let t = new Date()
     let words = await Word.find({});
     if (words.length !== 0) {
 
       for (let word of words) {
-        let obj = word
         const {
           word: objWord,
           translate: wordTranslate,
           notification: objNotification,
           dateOfCreation: objDate,
           email: objEmail
-        } = obj
+        } = word
 
         if (new Date().getTime() >= objDate && objNotification <= maxStatus) {
           let sender = await sendOnEmail(objEmail, objWord, wordTranslate)
@@ -49,12 +46,12 @@ module.exports = {
                 dateOfCreation: checkStatusSetDate(objNotification, objDate),
               });
             if (updatedRecord) {
-              sails.log('success ' + updatedRecord.id + ': ' + updatedRecord.dateOfCreation);
+              sails.log(`success, STATUS => ${objNotification}[user id]:` + updatedRecord.id + ': ' + new Date(Number.parseInt(objDate)))
             } else {
               sails.log('The database does not contain a record with the date:' + objDate);
             }
           } else {
-            let destroyRecord = await Word.destroyOne({dateOfCreation: objDate});
+            await Word.destroyOne({dateOfCreation: objDate});
             sails.log(`Record with id: ${obj.id} was destroyed because of notification reached status 5: ` + obj.notification)
           }
         }
@@ -66,15 +63,15 @@ module.exports = {
       let transporter = nodeMailer.createTransport({
         service: 'gmail',
         auth: {
-          user: 'acctestdev5@gmail.com',
-          pass: 'cthutqgfyxtyrj05'
+          user: sails.config.custom.mailgunDomain,
+          pass: sails.config.custom.mailgunSecret,
         }
       });
       const mailOptions = {
         from: '~ words reminder ~',
         to: email,
         subject: `It is time to repeat this word: ${word} : ${translate}`,
-        html: '<p>`You should repeat this word: ${word} : ${translate}`</p>'
+        html: `<p>You should repeat this word: ${word} : ${translate}</p>`
       };
       transporter.sendMail(mailOptions, function (err, res) {
         if (err) {
@@ -93,39 +90,50 @@ module.exports = {
       const years   = days * 365;
 
       // =======times for real tasks ==========
-      const nine      = 9 * hours
-      const day       = hours * 24;
-      const seven     = 7 * days
-      const twelve    = 12 * days
-      const firstTime = 5 * minutes
+      const timeInterval = Object.freeze({
+        FIRST_TIME:   5 * minutes,
+        NINE_HOURS:   9 * hours,
+        ONE_DAY:      24 *hours,
+        SEVEN_DAYS:   7 * days,
+        TWELVE_DAYS:  12 * days,
+      })
+
+      const status = Object.freeze({
+        FIRST_REPETITION: 1,
+        SECOND_REPETITION: 2,
+        THIRD_REPETITION: 3,
+        FOURTH_REPETITION: 4,
+        FIFTH_REPETITION: 5
+      })
 
       let notificationTime = currentStatus
       switch (notificationTime) {
-        case 1:
-          return intpars(currentDate, 10000) //test time to dont wait
+        case status.FIRST_REPETITION:
+          return intpars(currentDate, timeInterval.FIRST_TIME)
           break
-        case 2:
-          return intpars(currentDate, 10000) //test time
+        case status.SECOND_REPETITION:
+          return intpars(currentDate, timeInterval.NINE_HOURS)
           break
-        case 3:
-          return intpars(currentDate, 10000) //test time
+        case status.THIRD_REPETITION:
+          return intpars(currentDate, timeInterval.ONE_DAY)
           break
-        case 4:
-          return intpars(currentDate, 10000) //test time
+        case status.FOURTH_REPETITION:
+          return intpars(currentDate, timeInterval.SEVEN_DAYS)
           break
-        case 5:
-          return intpars(currentDate, 10000) //test time
+        case status.FIFTH_REPETITION:
+          return intpars(currentDate, timeInterval.TWELVE_DAYS)
           break
       }
 
       function intpars(stringDate, value){
         return Number.parseInt(stringDate, 10) + value
       }
-      return 'new date for notification'
+      return checkStatusSetDate.name + ' new date for notification'
     }
 
     return exits.success('Success')
   }
+
 
 };
 
