@@ -45,14 +45,10 @@ module.exports = {
       notification: START_NOTIFICATION_STATUS
     };
     const {
-      word: newWord,
-      translate: translate,
       dateOfCreation: current,
-      email: email,
-      notification: notification
     } = data;
 
-    const result = await Word.create(data);
+    await Word.create(data);
     let newRecord = await Word.find({dateOfCreation: current});
     if (!newRecord) {
       sails.log('error');

@@ -35,6 +35,12 @@
     }
   },
 
+  "settings": {
+    "react": {
+      "version": "detect"
+    }
+  },
+
   "globals": {
 
     // Allow any window globals you're relying on here; e.g.

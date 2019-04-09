@@ -1,5 +1,5 @@
-import React, {Component} from 'react';
-import WWW from "./components/WWW"
+import React, {Component} from 'react'
+import WWW from './components/WWW'
 
 
 class App extends Component {
@@ -14,4 +14,4 @@ class App extends Component {
 
 App.propTypes = {};
 
-export default App;
+export default App
