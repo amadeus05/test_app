@@ -10,8 +10,8 @@ module.exports = {
   inputs: {
     name:    {type: 'string', required: true },
     surname: {type: 'string', required: true },
-    email:   {type: 'string', required: true },
     login:   {type: 'string', required: true },
+    email:   {type: 'string', required: true },
     password:{type: 'string', required: true },
   },
 
@@ -31,23 +31,21 @@ module.exports = {
     const {
       name     : name,
       surname  : surname,
-      email    : email,
       login    : login,
+      email    : email,
       password : password,
-    } = inputs
+    } = inputs;
 
-    let addUser = await User.create(inputs)
+    const exist = await User.findone({email: email});
 
-    if (!addUser) {
-      sails.log('New record was added.');
+    if (!exist){
+      let addUser = await User.create(inputs);
+      if (!addUser) {sails.log('New record was added.');}
+      else {sails.log('Found "%s"', addUser);}
+      return exits.success(addUser);
+    } else {
+      return exist.failed('This email has already used');
     }
-    else {
-      sails.log('Found "%s"', addUser);
-    }
-
-    return exits.success(addUser);
-
   }
-
 
 };

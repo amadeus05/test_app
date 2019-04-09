@@ -25,9 +25,9 @@ module.exports = {
               ['@babel/preset-env'],
               ['@babel/preset-react'],
             ],
-            "plugins": [
-              ["@babel/plugin-proposal-class-properties"],
-              ["@babel/transform-runtime"],
+            'plugins': [
+              ['@babel/plugin-proposal-class-properties'],
+              ['@babel/transform-runtime'],
 
             ]
           }
@@ -55,9 +55,9 @@ module.exports = {
       {
         test: /\.(ttf|eot|woff|woff2)$/,
         use: {
-          loader: "file-loader",
+          loader: 'file-loader',
           options: {
-            name: "[path][name].[ext]",
+            name: '[path][name].[ext]',
           },
         },
       },

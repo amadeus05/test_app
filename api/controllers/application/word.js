@@ -27,39 +27,39 @@ module.exports = {
   },
 
   exits: {
-    success:{
+    success: {
       newRecordWasEddiedSuccessfully: 'SUCCESS',
     },
-    failed:{
+    failed: {
       description: 'Database error'
     },
 
   },
 
   fn: async function (inputs, exits) {
-    const START_NOTIFICATION_STATUS = 1
-    const START_INTERVAL = 10000
+    const START_NOTIFICATION_STATUS = 1;
+    const START_INTERVAL = 10000;
     const data = {
       ...inputs,
       dateOfCreation: Number.parseInt(new Date().getTime()) + START_INTERVAL,
-      notification:   START_NOTIFICATION_STATUS
-    }
-    const {      word          : newWord,
-                 translate     : translate,
-                 dateOfCreation: current,
-                 email         : email,
-                 notification  : notification
-    } = data
+      notification: START_NOTIFICATION_STATUS
+    };
+    const {
+      word: newWord,
+      translate: translate,
+      dateOfCreation: current,
+      email: email,
+      notification: notification
+    } = data;
 
-    const result  = await Word.create(data)
+    const result = await Word.create(data);
     let newRecord = await Word.find({dateOfCreation: current});
     if (!newRecord) {
       sails.log('error');
-    }
-    else {
+    } else {
       sails.log('Found "%s"', newRecord);
     }
-      return exits.success(newRecord);
+    return exits.success(newRecord);
   }
 };
 
