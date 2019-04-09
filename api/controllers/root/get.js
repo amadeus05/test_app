@@ -1,27 +1,15 @@
 module.exports = {
 
-
   friendlyName: 'Get',
-
 
   description: 'Get root.',
 
+  inputs: {},
 
-  inputs: {
-
-  },
-
-
-  exits: {
-
-  },
-
+  exits: {},
 
   fn: async function (inputs) {
-
-
-    return {message: 'THIS IS TITLE!', body: 'body', items: [1,2,'string1']};
-
+    return {message: 'THIS IS TITLE!', body: 'body', items: [1, 2, 'string1']};
   }
 
 

@@ -9,13 +9,12 @@
  * https://sailsjs.com/config/bootstrap
  */
 
-module.exports.bootstrap = async function() {
+module.exports.bootstrap = async function () {
 
-  setInterval(async function ()
-  {
-    await sails.helpers.mainProcess();
+  setInterval(async () => {
+    await sails.helpers.runSender();
   },
- 10000) //test timeout
+    10000); //test timeout
 
   // By convention, this is a good place to set up fake data during development.
   //

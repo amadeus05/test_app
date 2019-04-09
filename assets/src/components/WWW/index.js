@@ -1,5 +1,4 @@
-import "./index.scss"
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 
 
 class WWW extends Component {
